@@ -1,8 +1,8 @@
 import click
 import json, re, datetime, httplib, sys
 import os,django
-from populate_db import get_info_and_store
-import populate_db
+from db_script import get_info_and_store
+import db_script
 
 #add option 'name' to take input through cli
 @click.command()
@@ -154,4 +154,4 @@ if __name__=='__main__':
     	add()
     elif method=='f':
 	 for name in text:
-         	populate_db.get_info_and_store(name.rstrip())
+         	db_script.get_info_and_store(name.rstrip())
