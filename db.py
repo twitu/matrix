@@ -154,4 +154,4 @@ if __name__=='__main__':
     	add()
     elif method=='f':
 	 for name in text:
-         	get_info_and_store(name.rstrip())
+         	populate_db.get_info_and_store(name.rstrip())
