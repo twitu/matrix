@@ -59,8 +59,6 @@ def add(name):
             			if k['job'] == "Director":
                 			if Director.objects.filter(name=k['name']):
                     				object2 = Director.objects.filter(name=k['name'])[0]
-                    				object2.movie_name.add(object1)
-                    				break
                 			else:
                     				object2 = Director(name=k['name'])
 					
@@ -77,7 +75,6 @@ def add(name):
         		for m in range(0,cast_range):
             			if Actor.objects.filter(name=data['cast'][m]['name']):
                 			object3 = Actor.objects.filter(name=data['cast'][m]['name'])[0]
-                			object3.movie_name.add(object1)
             			else:
                 			object3 = Actor(name=data['cast'][m]['name'])
 								
