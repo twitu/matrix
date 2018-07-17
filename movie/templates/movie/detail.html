@@ -1,0 +1,8 @@
+<img src={{movie.poster}}">
+<h1> {{movie.name}}</h1>
+<h3> {{movie.actor}}</h3>
+<ul>
+    {% for song in album.song_set.all%}
+        <li>{{movie.name}}-{{movie.release}} </li>
+    {% endfor %}
+</ul>
