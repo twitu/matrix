@@ -171,4 +171,4 @@ if __name__ == '__main__':
                              "Please enter (y) for yes or (n) for no")
 
     for movie in name:
-add(movie.rstrip(), debug, log)
+        add(movie.rstrip(), debug, log)
