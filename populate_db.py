@@ -123,7 +123,8 @@ def add(name):
 if __name__=='__main__':
     # set up fixed headers, varicables and meta data
     conn = httplib.HTTPSConnection("api.themoviedb.org")
-    poster_path = "https://image.tmdb.org/t/p/w640"
+    # w342 determines size of poster that will be loaded, it can be changed according to API specifications
+    poster_path = "https://image.tmdb.org/t/p/w342"
     payload = "{}"
     credit = "/3/movie/{}/credits?api_key=a0cda0670d10a1f96ea56ac1d70c5067"
     film = "/3/search/movie?include_adult=false&page=1&query={}&language=en-US&api_key=a0cda0670d10a1f96ea56ac1d70c5067"
