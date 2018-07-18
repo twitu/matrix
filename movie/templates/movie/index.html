@@ -1,0 +1,189 @@
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+{% if all_movies %}
+    {% for movie in all_movies %}
+        <style>
+        @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800");
+        html {
+          box-sizing: border-box;
+          }
+        *, *::before, *::after {
+          box-sizing: inherit;
+          }
+        html, body {
+          width: 100%;
+          height: 100%;
+        }
+        body {
+          background-color: #dce1e5;
+          font-family: "Montserrat", helvetica, arial, sans-serif;
+          font-size: 14px;
+          color: #cfd6e1;
+          line-height: 1.5;
+          font-weight: 400;
+          overflow-x: hidden;
+        }
+        * {
+          transition: .4s;
+        }
+        a {
+          text-decoration: none;
+        }
+
+        .movie-card {
+          background-size: contain;
+          background-repeat: no-repeat;
+          width: 75%;
+          max-width: 800px;
+          height: 400px;
+          display: block;
+          margin: 8vh auto;
+          border-radius: 8px;
+          box-shadow: 0px 8px 12px 0px rgba(0, 0, 0, 0.25);
+          }
+
+        .movie-card .movie-poster {
+          width: 40%;
+          float: left;
+          overflow: auto;
+          background: transparent;
+          border-radius:10px 0 0 10px;
+          -webkit-border-radius:10px 0 0 10px;
+          -moz-border-radius:10px 0 0 10px;
+        }
+        .color-overlay {
+          width: 100%;
+          height: 100%;
+          border-radius: 8px;
+          background: linear-gradient(to right, rgba(42, 159, 255, 0.2) 0%, #212120 60%, #212120 100%);
+          background-blend-mode: multiply;
+        }
+        h1, h2, h3 {
+          font-family: "Montserrat", helvetica, arial, sans-serif;
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          line-height: 1;
+          font-weight: 400;
+        }
+        .movie-content {
+          width: 40%;
+          display: block;
+          position: relative;
+          float: right;
+          padding-right: 1em;
+        }
+        .movie-content .movie-title {
+          color: #ffffff;
+          margin-bottom: .25em;
+          opacity: .75;
+        }
+        .movie-content .movie-info {
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          font-size: .8em;
+          color: #2a9fff;
+          line-height: 1;
+          margin: 0;
+          font-weight: 700;
+          opacity: .5;
+        }
+        .movie-content .movie-genre {
+          text-transform: uppercase;
+          letter-spacing: 2px;
+          font-size: .8em;
+          color: #2a9fff;
+          line-height: 1;
+          margin: 0;
+          font-weight: 700;
+          opacity: .5;
+        }
+        .movie-content .movie-header {
+          margin-bottom: 2em;
+        }
+        .movie-content .movie-desc {
+          font-weight: 300;
+          opacity: .84;
+          margin-bottom: 2em;
+        }
+        
+        @media (max-width: 1000px) {
+          .movie-content {
+            width: 50%;
+            max-width: 95%;
+          }
+        }
+        @media (max-width: 800px) {
+          .movie-card {
+            width: 95%;
+            max-width: 95%;
+            }
+          }
+        @media (max-width: 600px) {
+          .movie-card, .movie-card:nth-child(2), .movie-card:nth-child(3) {
+            background-position: 50% 0%;
+            background-size: cover;
+            height: 400px;
+            }
+          .color-overlay {
+            background: linear-gradient(to bottom, rgba(42, 159, 255, 0.2) 0%, #212120 60%, #212120 100%);
+            }
+          .movie-content {
+            margin-top: 4.2em;
+            width: 90%;
+            }
+          .movie-share {
+            display: block;
+            width: 100%;
+            }
+          }
+        </style>
+
+        <div id="movie-card-list">
+            <!-- Movie Card -->
+            <div class="movie-card">
+                <div class="color-overlay">
+
+                    <div class = "movie-poster">
+                        <img src="{{movie.poster}}" alt="No image available" height="100%" width="100%" object-fit="contain">
+                    </div>
+                    <div class="movie-content">
+                        <div class="movie-header">
+                            <h1 class="movie-title">{{movie.name}}</h1>
+                            <br>
+                            <h4 class="movie-info">{{movie.release}}</h4>
+                            <br>
+                            <h4 class="movie-genre"><b>GENRE:
+                                {% for genre in movie.genre_set.all %}
+                                    </b>{{genre}}
+                                    {% if not forloop.last %},{% endif %}
+                                {% endfor %}
+
+
+                            </h4>
+                            <br>
+                            <h3 class="movie-director"><b>DIRECTOR:
+                            {% for director in movie.director_set.all %}
+                                </b>{{director}}
+                            {% endfor %}
+                            </h3>
+                            <br>
+                            <p class="movie-cast"><b>CAST:
+                            {% for actor in movie.actor_set.all %}
+                                </b>{{actor}}
+                                {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                            </p>
+
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% else %}
+  <h3>You  don't have any movies</h3>
+{% endif %}
