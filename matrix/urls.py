@@ -19,4 +19,5 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^movie/', include("movie.urls", namespace="movie")),
+    url(r'^search/', include('haystack.urls')),
 ]
