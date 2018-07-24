@@ -6,4 +6,6 @@ urlpatterns =[
     url(r'^$',views.index, name='index'),
     #/music/21/
     url(r'^(?P<movie_id>[0-9]+)/$',views.detail, name='detail'),
+    #/search/
+    url(r'^search/', include('haystack.urls'))
 ]
