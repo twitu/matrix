@@ -45,7 +45,7 @@ def add(name, debug, log):
                 object4 = Genre(name=genre_dict[str(j)])
 
             if debug:
-                click.echo('Genre:%s' % object4)
+                click.echo('Genre: %s' % object4)
 
         # getting movie credits to store actors and cast
         conn.request("GET", credit.format(movie_id), payload)
@@ -61,7 +61,7 @@ def add(name, debug, log):
                     object2 = Director(name=k['name'])
 
         if debug:
-            click.echo('Director:%s' % object2)
+            click.echo('Director: %s' % object2)
 
         # populating actors database with only first seven or less actors
         if len(data['cast']) < 7:
@@ -76,7 +76,22 @@ def add(name, debug, log):
                 object3 = Actor(name=data['cast'][m]['name'])
 
             if debug:
-                click.echo('Actor:%s' % object3)
+                click.echo('Actor: %s' % object3)
+
+        # getting keywords for movie
+        conn.request("GET", keywords.format(movie_id), payload)
+        res = conn.getresponse()
+        key_word_data = json.loads(res.read())
+
+        # populating keywords database
+        for keyword in key_word_data["keywords"]:
+            if Keyword.objects.filter(database_id=keyword["id"]):
+                object5 = Keyword.objects.filter(database_id=keyword["id"])[0]
+            else:
+                object5 = Keyword(database_id=keyword["id"], name=keyword["name"])
+
+            if debug:
+                click.echo('Keyword: %s' % object5)
 
         if debug:
             save = ''
@@ -88,7 +103,6 @@ def add(name, debug, log):
         if save == 'y':
             object1.save()
 
-            print("stored: %s\n" % data_1['title'])
             # populating genre database
             for j in data_1['genre_ids']:
                 if Genre.objects.filter(name=genre_dict[str(j)]):
@@ -111,6 +125,7 @@ def add(name, debug, log):
                         object2.save()
                         object2.movie_name.add(object1)
 
+            # populating actor database
             for m in range(0, cast_range):
                 if Actor.objects.filter(name=data['cast'][m]['name']):
                     object3 = Actor.objects.filter(name=data['cast'][m]['name'])[0]
@@ -120,6 +135,17 @@ def add(name, debug, log):
                     object3.save()
                     object3.movie_name.add(object1)
 
+            # populating keyword database
+            for keyword in key_word_data["keywords"]:
+                if Keyword.objects.filter(database_id=keyword["id"]):
+                    object5 = Keyword.objects.filter(database_id=keyword["id"])[0]
+                    object5.movie_name.add(object1)
+                else:
+                    object5 = Keyword(database_id=keyword["id"], name=keyword["name"])
+                    object5.save()
+                    object5.movie_name.add(object1)
+
+            print("stored: %s\n" % data_1['title'])
         else:
             click.echo("Movie not stored in database")
 
@@ -131,6 +157,8 @@ if __name__ == '__main__':
     poster_path = "https://image.tmdb.org/t/p/w342"
     payload = "{}"
     credit = "/3/movie/{}/credits?api_key=a0cda0670d10a1f96ea56ac1d70c5067"
+    # TODO consider adding keywords category in database
+    keywords = "/3/movie/{}/keywords?api_key=a0cda0670d10a1f96ea56ac1d70c5067"
     film = "/3/search/movie?include_adult=false&page=1&query={}&language=en-US&api_key=a0cda0670d10a1f96ea56ac1d70c5067"
 
     # genres dictionary
@@ -143,7 +171,7 @@ if __name__ == '__main__':
     # configuring script to understand django environment
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'matrix.settings')
     django.setup()
-    from movie.models import Movie, Actor, Director, Genre
+    from movie.models import Movie, Actor, Director, Genre, Keyword
 
     # ask user for single or file mode
     mode = ''
