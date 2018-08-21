@@ -1,6 +1,11 @@
+import datetime
+import django
+import httplib
+import json
+import os
+import re
+
 import click
-import json, re, datetime, httplib
-import os, django
 
 
 def add(name, debug, log):
@@ -12,86 +17,62 @@ def add(name, debug, log):
     name = re.sub(r"\s+", "%20", name)
     conn.request("GET", film.format(name), payload)
     res = conn.getresponse()
-    data = json.loads(res.read())
+    data_movie = json.loads(res.read())
 
-    if not data['total_results']:
+    if not data_movie['total_results']:
         print("Could not find ", name)
         log.write(name + '\n')
         log.flush()
     else:
-        data_1 = data['results'][0]
+        movie_data = data_movie['results'][0]
 
         # populating movie database
-        if Movie.objects.filter(name=data_1['title']):
-            object1 = Movie.objects.filter(name=data_1['title'])[0]
+        if Movie.objects.filter(name=movie_data['title']):
+            movie_object = Movie.objects.filter(name=movie_data['title'])[0]
         else:
-            if data_1['poster_path']:
-                object1 = Movie(name=data_1['title'],
-                                release=data_1['release_date'],
-                                poster=str(poster_path + data_1['poster_path']))
+            if movie_data['poster_path']:
+                movie_object = Movie(name=movie_data['title'],
+                                     release=movie_data['release_date'],
+                                     poster=str(poster_path + movie_data['poster_path']))
             else:
-                object1 = Movie(name=data_1['title'],
-                                release=data_1['release_date'])
-        movie_id = data_1['id']
+                movie_object = Movie(name=movie_data['title'],
+                                     release=movie_data['release_date'])
+        movie_id = movie_data['id']
 
         if debug:
-            click.echo('Movie name, Release date: %s' % object1)
+            click.echo('Movie name, Release date: {}'.format(movie_object))
 
-        # populating genre database
-        for j in data_1['genre_ids']:
-            if Genre.objects.filter(name=genre_dict[str(j)]):
-                object4 = Genre.objects.filter(name=genre_dict[str(j)])[0]
-            else:
-                object4 = Genre(name=genre_dict[str(j)])
-
-            if debug:
-                click.echo('Genre: %s' % object4)
+        if debug:
+            # print genres for debugging
+            for j in movie_data['genre_ids']:
+                click.echo('Genre: {}'.format(genre_dict[str(j)]))
 
         # getting movie credits to store actors and cast
         conn.request("GET", credit.format(movie_id), payload)
         res = conn.getresponse()
-        data = json.loads(res.read())
+        crew_data = json.loads(res.read())
 
-        # populating director database
-        for k in data['crew']:
-            if k['job'] == "Director":
-                if Director.objects.filter(name=k['name']):
-                    object2 = Director.objects.filter(name=k['name'])[0]
-                else:
-                    object2 = Director(name=k['name'])
-
+        # print director for debugging
         if debug:
-            click.echo('Director: %s' % object2)
+            for k in crew_data['crew']:
+                click.echo('Director: {}'.format(k["name"]))
 
-        # populating actors database with only first seven or less actors
-        if len(data['cast']) < 7:
-            cast_range = len(data['cast'])
-        else:
-            cast_range = 7
+        cast_range = min(10, len(crew_data['cast']))  # number of actors to be saved is less than 10
 
-        for m in range(0, cast_range):
-            if Actor.objects.filter(name=data['cast'][m]['name']):
-                object3 = Actor.objects.filter(name=data['cast'][m]['name'])[0]
-            else:
-                object3 = Actor(name=data['cast'][m]['name'])
-
-            if debug:
-                click.echo('Actor: %s' % object3)
+        # print actors for debugging
+        if debug:
+            for m in range(0, cast_range):
+                click.echo('Actor: {}'.format(crew_data['cast'][m]['name']))
 
         # getting keywords for movie
         conn.request("GET", keywords.format(movie_id), payload)
         res = conn.getresponse()
         key_word_data = json.loads(res.read())
 
-        # populating keywords database
-        for keyword in key_word_data["keywords"]:
-            if Keyword.objects.filter(database_id=keyword["id"]):
-                object5 = Keyword.objects.filter(database_id=keyword["id"])[0]
-            else:
-                object5 = Keyword(database_id=keyword["id"], name=keyword["name"])
-
-            if debug:
-                click.echo('Keyword: %s' % object5)
+        # print keywords for debugging
+        if debug:
+            for keyword in key_word_data["keywords"]:
+                click.echo('Keyword: {}'.format(keyword["name"]))
 
         if debug:
             save = ''
@@ -101,51 +82,51 @@ def add(name, debug, log):
             save = 'y'
 
         if save == 'y':
-            object1.save()
+            movie_object.save()
 
             # populating genre database
-            for j in data_1['genre_ids']:
+            for j in movie_data['genre_ids']:
                 if Genre.objects.filter(name=genre_dict[str(j)]):
-                    object4 = Genre.objects.filter(name=genre_dict[str(j)])[0]
-                    object4.movie_name.add(object1)
+                    genre_object = Genre.objects.filter(name=genre_dict[str(j)])[0]
+                    genre_object.movie_name.add(movie_object)
                 else:
-                    object4 = Genre(name=genre_dict[str(j)])
-                    object4.save()
-                    object4.movie_name.add(object1)
+                    genre_object = Genre(name=genre_dict[str(j)])
+                    genre_object.save()
+                    genre_object.movie_name.add(movie_object)
 
             # populating director database
-            for k in data['crew']:
+            for k in crew_data['crew']:
                 if k['job'] == "Director":
                     if Director.objects.filter(name=k['name']):
-                        object2 = Director.objects.filter(name=k['name'])[0]
-                        object2.movie_name.add(object1)
+                        director_object = Director.objects.filter(name=k['name'])[0]
+                        director_object.movie_name.add(movie_object)
                         break
                     else:
-                        object2 = Director(name=k['name'])
-                        object2.save()
-                        object2.movie_name.add(object1)
+                        director_object = Director(name=k['name'])
+                        director_object.save()
+                        director_object.movie_name.add(movie_object)
 
             # populating actor database
             for m in range(0, cast_range):
-                if Actor.objects.filter(name=data['cast'][m]['name']):
-                    object3 = Actor.objects.filter(name=data['cast'][m]['name'])[0]
-                    object3.movie_name.add(object1)
+                if Actor.objects.filter(name=crew_data['cast'][m]['name']):
+                    actor_object = Actor.objects.filter(name=crew_data['cast'][m]['name'])[0]
+                    actor_object.movie_name.add(movie_object)
                 else:
-                    object3 = Actor(name=data['cast'][m]['name'])
-                    object3.save()
-                    object3.movie_name.add(object1)
+                    actor_object = Actor(name=crew_data['cast'][m]['name'])
+                    actor_object.save()
+                    actor_object.movie_name.add(movie_object)
 
             # populating keyword database
             for keyword in key_word_data["keywords"]:
                 if Keyword.objects.filter(database_id=keyword["id"]):
-                    object5 = Keyword.objects.filter(database_id=keyword["id"])[0]
-                    object5.movie_name.add(object1)
+                    keyword_object = Keyword.objects.filter(database_id=keyword["id"])[0]
+                    keyword_object.movie_name.add(movie_object)
                 else:
-                    object5 = Keyword(database_id=keyword["id"], name=keyword["name"])
-                    object5.save()
-                    object5.movie_name.add(object1)
+                    keyword_object = Keyword(database_id=keyword["id"], name=keyword["name"])
+                    keyword_object.save()
+                    keyword_object.movie_name.add(movie_object)
 
-            print("stored: %s\n" % data_1['title'])
+            print("stored: {} {}\n".format(movie_data['title'], movie_data['release_date']))
         else:
             click.echo("Movie not stored in database")
 
@@ -157,7 +138,6 @@ if __name__ == '__main__':
     poster_path = "https://image.tmdb.org/t/p/w342"
     payload = "{}"
     credit = "/3/movie/{}/credits?api_key=a0cda0670d10a1f96ea56ac1d70c5067"
-    # TODO consider adding keywords category in database
     keywords = "/3/movie/{}/keywords?api_key=a0cda0670d10a1f96ea56ac1d70c5067"
     film = "/3/search/movie?include_adult=false&page=1&query={}&language=en-US&api_key=a0cda0670d10a1f96ea56ac1d70c5067"
 
