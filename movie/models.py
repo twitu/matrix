@@ -16,7 +16,7 @@ class Movie(models.Model):
 
 
 class Actor(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=50)
     movie_name = models.ManyToManyField(Movie)
 
     def __unicode__(self):
@@ -27,7 +27,7 @@ class Actor(models.Model):
 
 
 class Director(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=50)
     movie_name = models.ManyToManyField(Movie)
 
     def __unicode__(self):
@@ -38,7 +38,19 @@ class Director(models.Model):
 
 
 class Genre(models.Model):
-    name = models.CharField(max_length=20)
+    name = models.CharField(max_length=100)
+    movie_name = models.ManyToManyField(Movie)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        ordering = ("name",)
+
+
+class Keyword(models.Model):
+    database_id = models.IntegerField()
+    name = models.CharField(max_length=100)
     movie_name = models.ManyToManyField(Movie)
 
     def __unicode__(self):
