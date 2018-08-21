@@ -14,7 +14,7 @@ def add(name, debug, log):
     else:
         debug = False
 
-    name = re.sub(r"\s+", "%20", name)
+    name = re.sub(u"\s+", "%20", name)
     conn.request("GET", film.format(name), payload)
     res = conn.getresponse()
     data_movie = json.loads(res.read())
@@ -40,14 +40,14 @@ def add(name, debug, log):
         movie_id = movie_data['id']
 
         if debug:
-            click.echo('Movie name, Release date: {}'.format(movie_object))
+            click.echo(u'Movie name, Release date: {}'.format(movie_object))
 
         if debug:
             # print genres for debugging
             for j in movie_data['genre_ids']:
-                click.echo('Genre: {}'.format(genre_dict[str(j)]))
+                click.echo(u'Genre: {}'.format(genre_dict[str(j)]))
 
-        # getting movie credits to store actors and cast
+        # getting movie credits to store crew and cast
         conn.request("GET", credit.format(movie_id), payload)
         res = conn.getresponse()
         crew_data = json.loads(res.read())
@@ -55,14 +55,15 @@ def add(name, debug, log):
         # print director for debugging
         if debug:
             for k in crew_data['crew']:
-                click.echo('Director: {}'.format(k["name"]))
+                if k['job'] == "Director":
+                    click.echo(u'Director: {}'.format(k["name"]))
 
         cast_range = min(10, len(crew_data['cast']))  # number of actors to be saved is less than 10
 
         # print actors for debugging
         if debug:
             for m in range(0, cast_range):
-                click.echo('Actor: {}'.format(crew_data['cast'][m]['name']))
+                click.echo(u'Actor: {}'.format(crew_data['cast'][m]['name']))
 
         # getting keywords for movie
         conn.request("GET", keywords.format(movie_id), payload)
@@ -72,7 +73,7 @@ def add(name, debug, log):
         # print keywords for debugging
         if debug:
             for keyword in key_word_data["keywords"]:
-                click.echo('Keyword: {}'.format(keyword["name"]))
+                click.echo(u'Keyword: {}'.format(keyword["name"]))
 
         if debug:
             save = ''
@@ -126,7 +127,7 @@ def add(name, debug, log):
                     keyword_object.save()
                     keyword_object.movie_name.add(movie_object)
 
-            print("stored: {} {}\n".format(movie_data['title'], movie_data['release_date']))
+            print(u"stored: {} {}\n".format(movie_data['title'], movie_data['release_date']))
         else:
             click.echo("Movie not stored in database")
 
