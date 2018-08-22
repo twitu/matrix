@@ -22,7 +22,7 @@ def index(request):
     return render(
         request,
         'movie/index.html',
-        context={'all_movies': all_movies, 'movies': movies, }
+        context={'movies': movies}
     )
 
 def detail(request,movie_id):
