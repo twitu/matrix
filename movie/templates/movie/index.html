@@ -252,18 +252,36 @@
 
     {% endfor %}
 
-    <nav class="pagination" role="navigation">
+<nav class="pagination" role="navigation">
+
+        <a class="btn btn-info" href="?page=1">First</a>
         {% if movies.has_previous %}
-            <a href="?page={{ movies.previous_page_number }}">Previous</a>
+            <a class="prev btn btn-info" href="?page={{movies.previous_page_number}}">Prev</a>
         {% endif %}
 
-        {% for page in movies.paginator.page_range %}
-            <a href="?page={{ page}}">{{page}}</a>
-        {% endfor %}
+            {% for page in page_range  %}
+                {% if movies.number == page %}
+                    <a href="?page={{page}}" class="btn btn-default">{{page}}</a>
+
+                {% else %}
+                   <a href="?page={{page}}" class="btn">{{page}}</a>
+                {% endif %}
+
+            {% endfor %}
+            <a>...</a>
+            <a class="btn btn-info" href="?page={{movies.paginator.num_pages}}">{{movies.paginator.num_pages}}</a>
 
         {% if movies.has_next %}
-            <a href="?page={{ movies.next_page_number }}">Next</a>
+            <a class="next btn btn-info" href="?page={{movies.next_page_number}}">Next</a>
         {% endif %}
+
+        <a class="btn btn-info" href="?page={{movies.paginator.num_pages}}">Last</a>
+        <div class="pages">
+
+
+        </div>
+        <span class="clear_both"></span>
+
     </nav>
 
 {% else %}
