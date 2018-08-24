@@ -1,8 +1,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-{% if all_movies %}
-    {% for movie in all_movies %}
-        <style>
+
+<style>
         @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800");
         html {
           box-sizing: border-box;
@@ -106,7 +105,7 @@
           opacity: .84;
           margin-bottom: 2em;
         }
-        
+
         @media (max-width: 1000px) {
           .movie-content {
             width: 50%;
@@ -202,6 +201,10 @@
             margin-top: 200px;
         }
         </style>
+
+
+{% if all_movies %}
+    {% for movie in all_movies %}
 
         <div id="movie-card-list">
             <!-- Movie Card -->
