@@ -203,8 +203,8 @@
         </style>
 
 
-{% if all_movies %}
-    {% for movie in all_movies %}
+{% if movies %}
+    {% for movie in movies %}
 
         <div id="movie-card-list">
             <!-- Movie Card -->
@@ -252,19 +252,31 @@
 
     {% endfor %}
 
+
     <nav class="pagination" role="navigation">
         {% if movies.has_previous %}
-            <a href="?page={{ movies.previous_page_number }}">Previous</a>
+            <a class="prev btn btn-info" href="?page={{movies.previous_page_number}}">Prev</a>
         {% endif %}
 
-        {% for page in movies.paginator.page_range %}
-            <a href="?page={{ page}}">{{page}}</a>
-        {% endfor %}
+            {% for page in page_range %}
+                {% if movies.number == page %}
+                    <a href="?page={{page}}" class="btn btn-default">{{page}}</a>
+                {% else %}
+                    <a href="?page={{page}}" class="btn">{{page}}</a>
+                {% endif %}
+            {% endfor %}
 
         {% if movies.has_next %}
-            <a href="?page={{ movies.next_page_number }}">Next</a>
+            <a class="next btn btn-info" href="?page={{movies.next_page_number}}">Next</a>
         {% endif %}
+        <div class="pages">
+
+
+        </div>
+        <span class="clear_both"></span>
+
     </nav>
+
 
 {% else %}
   <h3>You  don't have any movies</h3>
