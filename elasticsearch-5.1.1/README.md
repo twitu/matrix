@@ -17,4 +17,8 @@ curl -XGET http://localhost:9200
 ```javascript
 remove-item alias:/curl
 ```
+* Activate the virtual environment(if not done already) and install the following package using pip
+```javascript
+pip install elasticsearch-dsl
+```
 #### Great, you now have ElasticSearch running on your machine!
