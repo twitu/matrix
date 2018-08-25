@@ -1,3 +1,11 @@
 click==6.7
 Django==1.11.13
+elasticsearch==6.3.1
+elasticsearch-dsl==6.2.1
+ipaddress==1.0.22
+python-dateutil==2.7.3
+pytz==2018.4
+six==1.11.0
+urllib3==1.23click==6.7
+Django==1.11.13
 pytz==2018.4
