@@ -7,7 +7,7 @@ from django.core.paginator import EmptyPage, PageNotAnInteger, Paginator, Invali
 
 def index(request):
     movies = Movie.objects.all()
-    paginator = Paginator(movies, 10)  # Show 25 contacts per page
+    paginator = Paginator(movies, 10)  # Show 10 contacts per page
 
     page = request.GET.get('page')
     try:
@@ -19,15 +19,12 @@ def index(request):
         # If page is out of range (e.g. 9999), deliver last page of results.
         movies = paginator.page(paginator.num_pages)
 
-        # Get the index of the current page
-    index = movies.number - 1  # edited to something easier without index
-        # This value is maximum index of your pages, so the last page - 1
+    # Get the index of the current page
+    index = movies.number - 1
     max_index = len(paginator.page_range)
-        # You want a range of 7, so lets calculate where to slice the list
     start_index = index - 3 if index >= 3 else 0
     end_index = index + 3 if index <= max_index - 3 else max_index
-        # Get our new page range. In the latest versions of Django page_range returns
-        # an iterator. Thus pass it to list, to make our slice possible again.
+        
     page_range = list(paginator.page_range)[start_index:end_index]
     return render(request, 'movie/index.html', {
         'movies': movies, 'page_range':page_range,
