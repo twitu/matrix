@@ -22,12 +22,12 @@ def index(request):
     # Get the index of the current page
     index = movies.number - 1
     max_index = len(paginator.page_range)
-    start_index = index - 3 if index >= 3 else 0
-    end_index = index + 3 if index <= max_index - 3 else max_index
-        
-    page_range = list(paginator.page_range)[start_index:end_index]
+    start_index = index - 2 if index >= 2 else 0
+    end_index = index + 2 if index <= max_index - 2 else max_index
+
+    page_range = list(paginator.page_range)[start_index:end_index-1]
     return render(request, 'movie/index.html', {
-        'movies': movies, 'page_range':page_range,
+        'movies': movies, 'page_range':page_range, 'page': page,
 
     })
 
