@@ -8,10 +8,9 @@ import models # using from . not working
 # global connection with elasticsearch set up
 connections.create_connection()
 
+
+
 # define what to index here
-
-
-
 class MovieIndex(DocType):
     name = Text()
     release = Text()
