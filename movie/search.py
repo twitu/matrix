@@ -5,7 +5,6 @@ from elasticsearch.helpers import bulk
 from elasticsearch import Elasticsearch
 import models # using from . not working
 
-
 # global connection with elasticsearch set up
 connections.create_connection()
 
@@ -26,6 +25,7 @@ def bulk_indexing():
     es = Elasticsearch()
     bulk(client=es, actions=(b.indexing() for b in models.Movie.objects.all().iterator()))
 
+# sample function to find all posts filtered by name
 def search(name):
     s = Search().filter('term', name=name)
     response = s.execute()

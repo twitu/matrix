@@ -37,10 +37,6 @@ class Movie(models.Model):
         ordering = ("name",)
 
 
-@receiver(post_save, sender = Movie)
-def index_post(sender, instance, **kwargs):
-    instance.indexing()
-
 
 
 
