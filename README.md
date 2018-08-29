@@ -23,7 +23,24 @@ Code base for MATRIX website
     python populate_db.py
     ```
     
-6. Start the application.
+6. Perform bulk indexing of data.
+    
+    * Download elasticsearch and activate it. 
+    ```bash
+    wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.1.1.tar.gz
+    tar -xzf elasticsearch-5.1.1.tar.gz
+    ./elasticsearch-5.1.1/bin/elasticsearch
+    ```
+    * Using another terminal, activate the virtualenv and go into the Django shell for bulk indexing of data.
+    ```bash
+    python manage.py shell
+   
+    >from movie.search import *
+    >bulk_indexing()
+    ```
+
+7. Start the application.
     ```bash
     python manage.py runserver
     ```
+    
