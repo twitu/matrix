@@ -4,6 +4,7 @@ from django.dispatch import receiver
 # adding a signal that fires .indexing() saved after every new post
 @receiver(post_save, sender = Movie)
 def index_post(sender, instance, **kwargs):
+    print(instance)
     instance.indexing()
 
 

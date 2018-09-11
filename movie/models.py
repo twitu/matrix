@@ -1,6 +1,5 @@
 from __future__ import unicode_literals
 from django.db import models
-
 from django.utils import timezone
 from django.contrib.auth.models import User
 from .search import MovieIndex
@@ -22,19 +21,18 @@ class Movie(models.Model):
         obj = MovieIndex(
             # meta = {'id : self.id'}, need not use that.
             name = self.name,
-            release = self.release
+            release = self.release,
+
         )
-        obj.save(index='movie-index')
+        obj.save(index= str(self.id))
         return obj.to_dict(include_meta=True)
 
     class Meta:
         ordering = ("name",)
 
-
 @receiver(post_save, sender = Movie)
 def index_post(sender, instance, **kwargs):
     instance.indexing()
-
 
 
 class Actor(models.Model):
