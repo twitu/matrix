@@ -1,289 +1,137 @@
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-<style>
-        @import url("https://fonts.googleapis.com/css?family=Montserrat:300,400,700,800");
-        html {
-          box-sizing: border-box;
-          }
-        *, *::before, *::after {
-          box-sizing: inherit;
-          }
-        html, body {
-          width: 100%;
-          height: 100%;
-        }
-        body {
-          background-color: #dce1e5;
-          font-family: "Montserrat", helvetica, arial, sans-serif;
-          font-size: 14px;
-          color: #cfd6e1;
-          line-height: 1.5;
-          font-weight: 400;
-          overflow-x: hidden;
-          text-align: center;
-        }
-        * {
-          transition: .4s;
-        }
-        a {
-          text-decoration: none;
-        }
-
-        .movie-card {
-          background-size: contain;
-          background-repeat: no-repeat;
-          width: 75%;
-          max-width: 800px;
-          height: 400px;
-          display: block;
-          margin: 8vh auto;
-          border-radius: 8px;
-          box-shadow: 0px 8px 12px 0px rgba(0, 0, 0, 0.25);
-          }
-
-        .movie-card .movie-poster {
-          width: 40%;
-          float: left;
-          overflow: auto;
-          background: transparent;
-          border-radius:10px 0 0 10px;
-          -webkit-border-radius:10px 0 0 10px;
-          -moz-border-radius:10px 0 0 10px;
-        }
-        .color-overlay {
-          width: 100%;
-          height: 100%;
-          border-radius: 8px;
-          background: linear-gradient(to right, rgba(42, 159, 255, 0.2) 0%, #212120 60%, #212120 100%);
-          background-blend-mode: multiply;
-        }
-        h1, h2, h3 {
-          font-family: "Montserrat", helvetica, arial, sans-serif;
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          line-height: 1;
-          font-weight: 400;
-        }
-        .movie-content {
-          width: 40%;
-          display: block;
-          position: relative;
-          float: right;
-          padding-right: 1em;
-        }
-        .movie-content .movie-title {
-          color: #ffffff;
-          margin-bottom: .25em;
-          opacity: .75;
-        }
-        .movie-content .movie-info {
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          font-size: .8em;
-          color: #2a9fff;
-          line-height: 1;
-          margin: 0;
-          font-weight: 700;
-          opacity: .5;
-        }
-        .movie-content .movie-genre {
-          text-transform: uppercase;
-          letter-spacing: 2px;
-          font-size: .8em;
-          color: #2a9fff;
-          line-height: 1;
-          margin: 0;
-          font-weight: 700;
-          opacity: .5;
-        }
-        .movie-content .movie-header {
-          margin-bottom: 2em;
-        }
-        .movie-content .movie-desc {
-          font-weight: 300;
-          opacity: .84;
-          margin-bottom: 2em;
-        }
-
-        @media (max-width: 1000px) {
-          .movie-content {
-            width: 50%;
-            max-width: 95%;
-          }
-        }
-        @media (max-width: 800px) {
-          .movie-card {
-            width: 95%;
-            max-width: 95%;
-            }
-          }
-        @media (max-width: 600px) {
-          .movie-card, .movie-card:nth-child(2), .movie-card:nth-child(3) {
-            background-position: 50% 0%;
-            background-size: cover;
-            height: 400px;
-            }
-          .color-overlay {
-            background: linear-gradient(to bottom, rgba(42, 159, 255, 0.2) 0%, #212120 60%, #212120 100%);
-            }
-          .movie-content {
-            margin-top: 4.2em;
-            width: 90%;
-            }
-          .movie-share {
-            display: block;
-            width: 100%;
-            }
-          }
-
-        @charset "UTF-8";
-        .pagination {
-            font-weight: bold;
-            font-size: 16px;
-            font-family: "helvetica neue", helvetica, arial, sans-serif;
-            margin: 100px;
-        }
-        .pagination a {
-            padding: 8px 16px;
-            border: 1px solid #262626;
-            border-radius: 3px;
-            background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2UzZTNlMyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2I4YjhiOCIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-            background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #e3e3e3), color-stop(100%, #b8b8b8));
-            background: -moz-linear-gradient(top, #e3e3e3, #b8b8b8);
-            background: -webkit-linear-gradient(top, #e3e3e3, #b8b8b8);
-            background: linear-gradient(to bottom, #e3e3e3, #b8b8b8);
-            box-shadow: 0 0 6px rgba(0, 0, 0, 0.6), inset 0 1px rgba(255, 255, 255, 0.4);
-            color: #333;
-            text-decoration: none;
-            text-shadow: 0 1px 1px rgba(255, 255, 255, 0.72);
-        }
-        .pagination a:hover {
-            background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Q5MDA3MyIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iI2EwMDA1NiIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-            background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #d90073), color-stop(100%, #a00056));
-            background: -moz-linear-gradient(top, #d90073, #a00056);
-            background: -webkit-linear-gradient(top, #d90073, #a00056);
-            background: linear-gradient(to bottom, #d90073, #a00056);
-            color: #260014;
-        }
-        .pagination a.active {
-            background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwYWRkOSIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwNzA4YyIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-            background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #00add9), color-stop(100%, #00708c));
-            background: -moz-linear-gradient(top, #00add9, #00708c);
-            background: -webkit-linear-gradient(top, #00add9, #00708c);
-            background: linear-gradient(to bottom, #00add9, #00708c);
-            color: #001e26;
-        }
-        .pagination a.active:hover {
-            cursor: default;
-        }
-        .pagination .prev:before {
-            content: "« ";
-            font-weight: normal;
-        }
-        .pagination .next:after {
-            content: " »";
-            font-weight: normal;
-        }
-        .pagination .next:hover, .pagination .prev:hover {
-            border-color: #141414;
-            background: url('data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4gPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJncmFkIiBncmFkaWVudFVuaXRzPSJvYmplY3RCb3VuZGluZ0JveCIgeDE9IjAuNSIgeTE9IjAuMCIgeDI9IjAuNSIgeTI9IjEuMCI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI2MjYyNiIvPjxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzFhMWExYSIvPjwvbGluZWFyR3JhZGllbnQ+PC9kZWZzPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JhZCkiIC8+PC9zdmc+IA==');
-            background: -webkit-gradient(linear, 50% 0%, 50% 100%, color-stop(0%, #262626), color-stop(100%, #1a1a1a));
-            background: -moz-linear-gradient(top, #262626, #1a1a1a);
-            background: -webkit-linear-gradient(top, #262626, #1a1a1a);
-            background: linear-gradient(to bottom, #262626, #1a1a1a);
-            box-shadow: 0 0 6px rgba(0, 0, 0, 0.6), inset 0 1px rgba(255, 255, 255, 0.1);
-            color: #ebebeb;
-            text-shadow: none;
-        }
-
-        .pagination {
-            margin-top: 200px;
-        }
-        </style>
-
-
-{% if movies %}
-    {% for movie in movies %}
-
-        <div id="movie-card-list">
-            <!-- Movie Card -->
-            <div class="movie-card">
-                <div class="color-overlay">
-
-                    <div class = "movie-poster">
-                        <img src="{{movie.poster}}" alt="No image available" height="100%" width="100%" object-fit="contain">
-                    </div>
-                    <div class="movie-content">
-                        <div class="movie-header">
-                            <h1 class="movie-title">{{movie.name}}</h1>
-                            <br>
-                            <h4 class="movie-info">{{movie.release}}</h4>
-                            <br>
-                            <h4 class="movie-genre"><b>GENRE:
-                                {% for genre in movie.genre_set.all %}
-                                    </b>{{genre}}
-                                    {% if not forloop.last %},{% endif %}
-                                {% endfor %}
-
-
-                            </h4>
-                            <br>
-                            <h3 class="movie-director"><b>DIRECTOR:
-                            {% for director in movie.director_set.all %}
-                                </b>{{director}}
-                            {% endfor %}
-                            </h3>
-                            <br>
-                            <p class="movie-cast"><b>CAST:
-                            {% for actor in movie.actor_set.all %}
-                                </b>{{actor}}
-                                {% if not forloop.last %},{% endif %}
-                            {% endfor %}
-                            </p>
-
-
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    {% endfor %}
-
-<nav class="pagination" role="navigation">
-
-        <a class="btn btn-info" href="?page=1">First</a>
-        {% if movies.has_previous %}
-            <a class="prev btn btn-info" href="?page={{movies.previous_page_number}}">Prev</a>
-        {% endif %}
-
-            {% for page in page_range  %}
+<html>
+	<head>	
+		<title>MATRIX</title>
+		<meta charset="UTF-8">
+		<meta property="og:site_name" content="MATRIX">
+		<meta property="og:title" content="MATRIX-BITS PILANI">
+		<meta property="og:description" content="The Literature and Cinema Review Society of BITS Pilani,Pilani Campus">
+		<meta name="description" content="The Literature and Cinema Review Society of BITS Pilani,Pilani Campus">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="qwerty.css">
+	</head>
+	<body>
+<div id="overlay">
+<div class="spinner"></div> 
+</div>
+<div id="sidebar-wrapper" class="sidebar-toggle">
+			<ul class="sidebar-nav">
+		    	<a href="?page=1"><li>
+		      		First
+		    	</li></a>
+		    	{% if movies.has_previous %}<a href="?page={{movies.previous_page_number}}"><li>
+		      		Previous
+		    	</li></a>{% endif %}
+		    	    {% for page in page_range  %}
                 {% if movies.number == page %}
-                    <a href="?page={{page}}" class="btn btn-default">{{page}}</a>
-
+                    <a href="?page={{page}}"><li>{{page}}</li></a>
                 {% else %}
-                   <a href="?page={{page}}" class="btn">{{page}}</a>
+                   <a href="?page={{page}}"><li>{{page}}</li></a>
                 {% endif %}
 
             {% endfor %}
-            <a>...</a>
-            <a class="btn btn-info" href="?page={{movies.paginator.num_pages}}">{{movies.paginator.num_pages}}</a>
+            <a><li>...</li></a>
+            <a href="?page={{movies.paginator.num_pages}}"<li>>{{movies.paginator.num_pages}}</li></a>
 
-        {% if movies.has_next %}
-            <a class="next btn btn-info" href="?page={{movies.next_page_number}}">Next</a>
-        {% endif %}
+				{% if movies.has_next %}<a href="?page={{movies.next_page_number}}"><li>
+		      		Next
+		    	</li></a>{% endif %}
+				<a href="?page={{movies.paginator.num_pages}}"><li>
+		      		Last
+		    	</li></a>
+		  	</ul>
+		</div>
+{% if movies %}
+    {% for movie in movies %}
+<div id="movie-card-list">
+<div class='card'>
+  <div class='card_left'>
+    <img src='thor.jpg'>
+  </div>
+  <div class='card_right'>
+    <h1 class="movie-title">{{movie.name}}</h1>
+							<br>
+							<h4 class="movie-info">{{movie.release}}</h4>
+							<br>
+							<h4 class="movie-genre"><b>GENRE:
+								{% for genre in movie.genre_set.all %}</b> 
+									{{genre}}
+                                    {% if not forloop.last %},{% endif %}
+                                {% endfor %} 
+							</h4>
+							<br>
+							<h4 class="movie-director"><b>DIRECTOR:
+								{% for director in movie.director_set.all %}</b> 
+								{{director}}
+                            {% endfor %}
+							</h4>
+							<br>
+							<p class="movie-cast"><b>CAST:
+							{% for actor in movie.actor_set.all %}	</b>
+								{{actor}}
+                                {% if not forloop.last %},{% endif %}
+                            {% endfor %}
+							</p>
+   </div>
+ </div>
 
-        <a class="btn btn-info" href="?page={{movies.paginator.num_pages}}">Last</a>
-        <div class="pages">
+   </div>
+   {% endfor %}
+<div id="bottom" class="text-center">
+<nav aria-label="Page navigation example">
+  <ul class="pagination ">
+    <li class="page-item"><a class="page-link" href="?page=1">First</a></li>
+	{% if movies.has_previous %}<li class="page-item"><a class="page-link" href="?page={{movies.previous_page_number}}">Previous</a></li>{% endif %}
+    {% for page in page_range  %}
+                {% if movies.number == page %}
+                    <li class="page-item"><a href="?page={{page}}" class="page-link">{{page}}</a></li>
 
+                {% else %}
+                   <li class="page-item"><a href="?page={{page}}" class="page-link">{{page}}</a></li>
+                {% endif %}
 
-        </div>
-        <span class="clear_both"></span>
+            {% endfor %}
+            <li class="page-item"><a class="page-link">...</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{movies.paginator.num_pages}}">{{movies.paginator.num_pages}}</a></li>
 
-    </nav>
+	{% if movies.has_next %}<li class="page-item"><a class="page-link" href="?page={{movies.next_page_number}}">Next</a></li>{% endif %}
+    <li class="page-item"><a class="page-link" href="?page={{movies.paginator.num_pages}}">Last</a></li>
+  </ul>
+</nav>
+</div>
+<script>
+$(window).resize(function() {
+	var path = $(window);
+	var contW = path.width();
+	if(contW >= 625){
+		document.getElementsByClassName("sidebar-toggle")[0].style.right="1.5vw";
+		$('#bottom').css('display','none');
+	}else{
+		document.getElementsByClassName("sidebar-toggle")[0].style.right="-200px";
+		$('#bottom').css('display','block');
+	}
+});
 
-{% else %}
-  <h3>You  don't have any movies</h3>
-{% endif %}
+var overlay = document.getElementById("overlay");
+var wrapper = document.getElementById("sidebar-wrapper");
+var movie = document.getElementById("movie-card-list");
+var bottom = document.getElementById("bottom");
+window.addEventListener('load', function(){
+  overlay.style.display = 'none';
+  wrapper.style.display = 'block';
+  movie.style.display = 'block';
+  bottom.style.display = 'block';
+  var path = $(window);
+	var contW = path.width();
+	if(contW >= 625){
+		document.getElementsByClassName("sidebar-toggle")[0].style.right="1vw";
+		$('#bottom').css('display','none');
+	}else{
+		document.getElementsByClassName("sidebar-toggle")[0].style.right="-200px";
+		$('#bottom').css('display','block');
+	}
+})
+
+</script>
