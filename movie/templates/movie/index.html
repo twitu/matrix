@@ -16,33 +16,7 @@
 <div id="overlay">
 <div class="spinner"></div> 
 </div>
-<div id="sidebar-wrapper" class="sidebar-toggle">
-			<ul class="sidebar-nav">
-		    	<a href="?page=1"><li>
-		      		First
-		    	</li></a>
-		    	{% if movies.has_previous %}<a href="?page={{movies.previous_page_number}}"><li>
-		      		Previous
-		    	</li></a>{% endif %}
-		    	    {% for page in page_range  %}
-                {% if movies.number == page %}
-                    <a href="?page={{page}}"><li>{{page}}</li></a>
-                {% else %}
-                   <a href="?page={{page}}"><li>{{page}}</li></a>
-                {% endif %}
 
-            {% endfor %}
-            <a><li>...</li></a>
-            <a href="?page={{movies.paginator.num_pages}}"<li>>{{movies.paginator.num_pages}}</li></a>
-
-				{% if movies.has_next %}<a href="?page={{movies.next_page_number}}"><li>
-		      		Next
-		    	</li></a>{% endif %}
-				<a href="?page={{movies.paginator.num_pages}}"><li>
-		      		Last
-		    	</li></a>
-		  	</ul>
-		</div>
 {% if movies %}
     {% for movie in movies %}
 <div id="movie-card-list">
@@ -79,6 +53,33 @@
 
    </div>
    {% endfor %}
+   <div id="sidebar-wrapper" class="sidebar-toggle">
+			<ul class="sidebar-nav">
+		    	<a href="?page=1"><li>
+		      		First
+		    	</li></a>
+		    	{% if movies.has_previous %}<a href="?page={{movies.previous_page_number}}"><li>
+		      		Previous
+		    	</li></a>{% endif %}
+		    	    {% for page in page_range  %}
+                {% if movies.number == page %}
+                    <a href="?page={{page}}"><li>{{page}}</li></a>
+                {% else %}
+                   <a href="?page={{page}}"><li>{{page}}</li></a>
+                {% endif %}
+
+            {% endfor %}
+            <a><li>...</li></a>
+            <a href="?page={{movies.paginator.num_pages}}"<li>{{movies.paginator.num_pages}}</li></a>
+
+				{% if movies.has_next %}<a href="?page={{movies.next_page_number}}"><li>
+		      		Next
+		    	</li></a>{% endif %}
+				<a href="?page={{movies.paginator.num_pages}}"><li>
+		      		Last
+		    	</li></a>
+		  	</ul>
+		</div>
 <div id="bottom" class="text-center">
 <nav aria-label="Page navigation example">
   <ul class="pagination ">
@@ -101,6 +102,9 @@
   </ul>
 </nav>
 </div>
+{% else %}
+  <h3>You  don't have any movies</h3>
+{% endif %}
 <script>
 $(window).resize(function() {
 	var path = $(window);
@@ -135,3 +139,5 @@ window.addEventListener('load', function(){
 })
 
 </script>
+	</body>
+</html>
