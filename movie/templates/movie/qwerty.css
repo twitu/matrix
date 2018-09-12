@@ -163,6 +163,15 @@ body{
   letter-spacing: 1px;
   animation: itanimation 20s infinite;;
 }
+#none h4{
+  color: white;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  font-size: 3vw;
+  padding: 0 0 0 40px;
+  letter-spacing: 1px;
+  animation: itanimation 20s infinite;
+}
 @keyframes itanimation{
 	0%{color: white;}
 	25%{color: black;}

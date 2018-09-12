@@ -103,7 +103,7 @@
 </nav>
 </div>
 {% else %}
-  <h3>You  don't have any movies</h3>
+  <div id="none"><h4>You  don't have any movies</h4></div>
 {% endif %}
 <script>
 $(window).resize(function() {
@@ -122,11 +122,13 @@ var overlay = document.getElementById("overlay");
 var wrapper = document.getElementById("sidebar-wrapper");
 var movie = document.getElementById("movie-card-list");
 var bottom = document.getElementById("bottom");
+var none= document.getElementById("none");
 window.addEventListener('load', function(){
   overlay.style.display = 'none';
   wrapper.style.display = 'block';
   movie.style.display = 'block';
   bottom.style.display = 'block';
+  none.style.display = 'block';
   var path = $(window);
 	var contW = path.width();
 	if(contW >= 625){
