@@ -1,6 +1,11 @@
 from __future__ import unicode_literals
-
 from django.db import models
+from django.utils import timezone
+from django.contrib.auth.models import User
+from .search import MovieIndex
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 
 class Movie(models.Model):
@@ -11,8 +16,25 @@ class Movie(models.Model):
     def __unicode__(self):
         return "".join([self.name, " ", self.release])
 
+    # Add indexing method
+    def indexing(self):
+        obj = MovieIndex(
+            # meta = {'id : self.id'}, need not use that.
+            name = self.name,
+            release = self.release,
+
+        )
+        obj.save(index= "movie-index" ) 
+        # not using str(self.id)
+
+        return obj.to_dict(include_meta=True)
+
     class Meta:
         ordering = ("name",)
+
+@receiver(post_save, sender = Movie)
+def index_post(sender, instance, **kwargs):
+    instance.indexing()
 
 
 class Actor(models.Model):
